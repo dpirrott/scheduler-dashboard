@@ -1,12 +1,23 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import classnames from "classnames";
+import classnames from 'classnames';
+import Loading from './Loading';
 
 class Dashboard extends Component {
-  render() {
-    const dashboardClasses = classnames("dashboard");
+  state = { loading: true };
 
-    return <main className={dashboardClasses} />;
+  render() {
+    const dashboardClasses = classnames('dashboard');
+
+    return (
+      <>
+        {this.state.loading ? (
+          <Loading />
+        ) : (
+          <main className={dashboardClasses} />
+        )}
+      </>
+    );
   }
 }
 
