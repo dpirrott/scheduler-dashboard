@@ -28,21 +28,36 @@ const data = [
 ];
 
 class Dashboard extends Component {
-  state = { loading: false };
+  state = { loading: false, focused: null };
+
+  selectPanel(id) {
+    this.setState((previousState) => ({
+      focused: previousState.focused ? null : id,
+    }));
+  }
 
   render() {
-    const dashboardClasses = classnames('dashboard');
-
-    const Panels = data.map((panel) => {
-      return (
-        <Panel
-          key={panel.id}
-          id={panel.id}
-          label={panel.label}
-          value={panel.value}
-        />
-      );
+    const dashboardClasses = classnames('dashboard', {
+      'dashboard--focussed': this.state.focused,
     });
+    this.selectPanel.bind(this);
+
+    const Panels = data
+      .filter(
+        (panel) =>
+          this.state.focused === null || this.state.focused === panel.id
+      )
+      .map((panel) => {
+        return (
+          <Panel
+            key={panel.id}
+            id={panel.id}
+            label={panel.label}
+            value={panel.value}
+            onClick={() => this.selectPanel(panel.id)}
+          />
+        );
+      });
 
     return (
       <>
